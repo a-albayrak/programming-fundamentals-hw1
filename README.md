@@ -1,95 +1,105 @@
-# Programming Fundamentals Homework 1: Transaction Management Application
+# CENG211 – Programming Fundamentals
 
-## Overview
+## Homework #1
 
-The application is designed to manage the transactions of a company in Turkey. The records consist of products and shop assistants, and their interactions in the form of transactions. Data for the products and shop assistants are provided in CSV files.
+In this homework, you are expected to implement a “Transaction Management Application” in Java.  
+You should fulfill the concepts of: 
 
-The **`products.CSV`** file contains:
-- **ID**
-- **Product Name**
-- **Price**
+- Defining Classes  
+- CSV file I/O  
+- Arrays  
+- 2-dimensional Arrays  
+- Constructors, Getters & Setters  
 
-The **`shopAssistants.csv`** file contains:
-- **ID**
-- **Name**
-- **Surname**
-- **Phone Number**
+In the Transaction Management Application, there are the records of the products and the shop assistants of a company in Turkey. In addition to the products and the shop assistants, there are transactions that are performed with the aid of the shop assistants.  
+The product records of this company are in the attached 'products.CSV' file that has the "ID, product name, price" format.  
+In this application, there are 1500 transactions. The following are the requirements for the transactions.  
 
-The application will manage **1500 transactions**, each involving:
-- A unique **transaction ID**
-- **3 products** randomly selected based on their ID
-- A **1-dimensional array** to hold the products
-- A **random quantity** for each product (1 to 10 units)
-- A **total price** calculated by multiplying the quantity with the product price and summing them up
-- A **transaction fee** calculated based on the total price using the following table:
+- Each transaction has a transaction ID, 3 products that are held in a 1-dimensional array, a total price, and a transaction fee.  
+- The products of each transaction are randomly determined according to the product ID.  
+- Multiple transactions could contain the same product.  
+- The quantity of each product is also determined randomly between 1 and 10 (if the product is uncountable, the quantity could be assumed as kilograms).  
+- The total price of a transaction is found by multiplying the quantity and the price for each product in the transaction and adding up all the results.  
+- The transaction fee of each transaction is determined according to the following table:  
 
-| Total Price (TL)        | Transaction Fee (%) |
-|-------------------------|---------------------|
-| ≤ 499                   | 1%                  |
-| 500 ≤ Total Price ≤ 799  | 3%                  |
-| 800 ≤ Total Price ≤ 999  | 5%                  |
-| ≥ 1000                  | 9%                  |
+| Total Price (TL)      | Percentage                           |
+|-----------------------|--------------------------------------|
+| totalPrice <= 499     | transactionFee = 1% of totalPrice    |
+| 500 <= totalPrice <= 799 | transactionFee = 3% of totalPrice |
+| 800 <= totalPrice <= 999 | transactionFee = 5% of totalPrice |
+| totalPrice >= 1000    | transactionFee = 9% of totalPrice    |
 
-## Shop Assistant Details
+In the Transaction Management Application, the shop assistant records are given in 'shopAssistants.csv' file which has the "ID, name, surname, phone number" format. In this app, each shop assistant aids 15 transactions, and they are paid commission-based salaries. If the total revenue of the 15 transactions is more than 7500 TL, the commission is 3%, otherwise it is 1%. Also, the weekly salary basis of each shop assistant is according to their seniority. The weekly salary basis table is given below. (It can be assumed that there are 4 weeks in a month.)
 
-Each shop assistant aids **15 transactions**. Their salary is commission-based:
-- If the total revenue of the 15 transactions exceeds **7500 TL**, the commission is **3%**.
-- Otherwise, the commission is **1%**.
-
-Additionally, the weekly salary is based on their seniority:
-
-| Seniority (Years)      | Weekly Salary Basis (TL) |
+| Seniority (Years)     | Weekly Salary Basis (TL) |
 |------------------------|--------------------------|
-| < 1                    | 1500                     |
-| 1 ≤ Seniority < 3      | 2000                     |
-| 3 ≤ Seniority < 5      | 2500                     |
-| ≥ 5                    | 3000                     |
+| seniority < 1          | 1500                     |
+| 1 <= seniority < 3     | 2000                     |
+| 3 <= seniority < 5     | 2500                     |
+| seniority >= 5         | 3000                     |
 
-## Class Structure
+---
 
-You are expected to implement the following classes:
+In this homework, you are expected to implement the necessary classes to load the data from the given CSV files and create the desired queries. You are expected to implement classes for:
 
-### Product
-- **ID**
-- **Product Name**
-- **Price**
+- `Product`
+- `ShopAssistant`
+- `Transaction`
+- `TransactionManagement`
+- `SalaryManagement`
+- `Query`
+- `SalesManagementApp` (the class with `main` method)
+- and other helper classes (e.g. `FileIO`)  
 
-### ShopAssistant
-- **ID**
-- **Name**
-- **Surname**
-- **Phone Number**
+with the information given below:
 
-### Transaction
-- **ID**
-- **1-D Array** of 3 Products
-- **Total Price**
-- **Transaction Fee**
+### Product:
+- ID  
+- Product Name  
+- Price  
 
-### SalaryManagement
-- **Array of ShopAssistants**
+### ShopAssistant:
+- ID  
+- Name  
+- Surname  
+- Phone Number  
 
-### TransactionManagement
-- **2-D Array of Transactions** for each shop assistant
-  - Example: For the 3rd shop assistant's 7th transaction, use `transactions[2][6]`.
+### Transaction:
+- ID  
+- 1-D Array of 3 Products  
+- Total Price  
+- Transaction Fee  
 
-### FileIO
-- Helper class to load data from CSV files.
+### SalaryManagement:
+- ShopAssistant  
+> Note: One-dimensional array that holds ShopAssistant objects.  
 
-### Query
-- Implement necessary methods to perform the following queries:
-  1. The highest-total-price transaction.
-  2. The most expensive product in the lowest-price transaction.
-  3. The lowest transaction fee.
-  4. The highest-salary shop assistant (ID, name, seniority, weekly salary basis, commission, total salary).
-  5. The total revenue earned from the 1500 transactions (including both total price and transaction fee).
-  6. The total profit earned after paying the shop assistant salaries.
+### TransactionManagement:
+- Transaction  
+> Note: Two-dimensional array that holds Transaction objects for each shop assistant.  
+> Ex: For 3rd shop assistant 7th Transaction, it is [2][6].  
 
-## Example Output
-```text
-The highest total price transaction= 301.32
-The most expensive product in the lowest price transaction= Sweet Potato
-The lowest transaction fee= 0.07
-The highest salary shop assistant= {ID:79, Name:Valentina, Seniority:14, Weekly Salary:3000, Commission:13.72, Salary:12,013.72}
-The total revenue= 107,895.52
-The total profit= -989,180.21
+### Implement necessary methods to respond to the following queries in `Query` class:
+
+1. The highest-total-price transaction.  
+2. The most expensive product in the lowest-price transaction.  
+3. The lowest transaction fee.  
+4. The highest-salary shop assistant. (Please, include his/her ID, name, seniority, weekly basis salary, commission, and total salary)  
+5. The total revenue that is earned from 1500 transactions including both total price and transaction fee of each transaction.  
+6. The total profit that is earned after paying the shop assistant salaries.  
+
+> If the result of any of the queries is more than one, please display one result. Since almost all data are randomly determined, the results of your projects will differ each time you execute your code and, also from each other. This is completely normal.  
+
+---
+
+## Important Notes:
+
+1. Do NOT request inputs in your app. Printing the results of the queries will be enough. You should print names of the results instead of printing IDs or indices.  
+2. You are NOT allowed to use List / ArrayList interfaces in this homework.  
+3. You can use standard `java.io` packages to read files. Do NOT use other 3rd party libraries.  
+4. You should use relative paths (e.g. `Files/sample.csv`) instead of absolute paths (e.g. `C:\\user\\eclipse-workspace\\MyProject\\Files\\sample.csv`). Please be sure of it, otherwise there will be no output of your application and you certainly will lose points.  
+5. To support Turkish characters, you may need to change your project’s text file encoding to UTF8:  
+   - Right click on your project (in package explorer) → Properties → Text file encoding → Other → UTF8 → Apply.  
+6. You are expected to write clean, readable, and tester-friendly code. Please try to maximize reusability and prevent redundancy in your methods.  
+
+---
